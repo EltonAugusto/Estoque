@@ -10,13 +10,15 @@ namespace EstoqueDeProdutos
         {
             WriteLine("Digite o código do Produto");
             var codigoProduto = ReadLine();
+
             WriteLine($"Selecione o Tipo do Produto\n 1: {nameof(TipoProduto.Perecivel)} \n 2: {nameof(TipoProduto.NaoPerecivel)}");
-            var tipoProduto = ReadLine();
+            var tipoProduto = ReadKey();
+
             var produto = new Produto(codigoProduto, converterEnumTipoProduto(tipoProduto));
 
             WriteLine("Confirmar entrada no Estoque? S/N");
 
-            if (ReadLine().ToUpper().Equals("S"))
+            if(ReadKey().Key == ConsoleKey.S)
             {
                 var estoque = new Estoque();
                 estoque.Entrada(produto);
@@ -31,13 +33,16 @@ namespace EstoqueDeProdutos
 
         }
 
-        private static TipoProduto converterEnumTipoProduto(string tipoProduto)
+        private static TipoProduto converterEnumTipoProduto(ConsoleKeyInfo keyPressed)
         {
-            switch (tipoProduto)
+            switch (keyPressed.Key)
             {
-                case "1":
-                case "2":
-                    return (TipoProduto)int.Parse(tipoProduto);
+                case ConsoleKey.NumPad1:
+                case ConsoleKey.D1:
+                    return (TipoProduto)1;
+                case ConsoleKey.NumPad2:
+                case ConsoleKey.D2:
+                    return (TipoProduto)2;
                 default:
                     throw new Exception("Opção Inválida");
             }
